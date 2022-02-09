@@ -57,7 +57,11 @@ def read_root():
 
 @app.get("/posts")
 def get_posts():
-    return {"data": my_posts}
+    # Get all posts by SQL statement
+    cursor.execute("""SELECT * FROM posts""")
+    # Retrive the data itself
+    posts = cursor.fetchall()
+    return {"data": posts}
 
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
