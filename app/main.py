@@ -1,17 +1,22 @@
 from pdb import post_mortem
 from typing import Optional
-from fastapi import FastAPI, Response, status, HTTPException
+from fastapi import FastAPI, Response, status, HTTPException, Depends
 from fastapi.params import Body
 from pydantic import BaseModel
 from random import randrange
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
+from . import models
+from .database import engine, get_db
+from sqlalchemy.orm import Session
+
+#Create database table
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
 # Creating a schema, for checking if the user provided the apporpriate fields
-
 
 class Post(BaseModel):
     title: str
@@ -53,6 +58,10 @@ def find_index_post(id):
 @app.get("/")
 def read_root():
     return {"message": "Welcome to my API!!!!!"}
+
+@app.get("/sqlalchemy")
+def test_posts(db: Session = Depends(get_db)):
+    return {"status": "success"}
 
 
 @app.get("/posts")
@@ -112,5 +121,5 @@ def update(id: int, post: Post):
 
     return {'data': updated_post}
 
-
+ 
 
