@@ -4,10 +4,13 @@ from typing import List
 from .. import models, api_schemas
 from ..database import get_db
 
-router = APIRouter()
+router = APIRouter(
+    prefix = "/posts",
+    tags=['Posts']
+)
 
 # Get all posts
-@router.get("/posts", response_model=List[api_schemas.PostResponse])
+@router.get("/", response_model=List[api_schemas.PostResponse])
 def get_posts(db: Session = Depends(get_db)):
     # Get all posts by SQL statement
     #cursor.execute("""SELECT * FROM posts""")
@@ -18,7 +21,7 @@ def get_posts(db: Session = Depends(get_db)):
 
 
 # Create post
-@router.post("/posts", status_code=status.HTTP_201_CREATED, response_model=api_schemas.PostResponse)
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=api_schemas.PostResponse)
 def create_posts(post: api_schemas.PostCreate, db: Session = Depends(get_db)):
     # cursor.execute("""INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) RETURNING *""",
     #                (post.title, post.content, post.published))  # protection against SQL injection
@@ -33,7 +36,7 @@ def create_posts(post: api_schemas.PostCreate, db: Session = Depends(get_db)):
 
 
 # Get one post based on id
-@router.get("/posts/{id}", response_model=api_schemas.PostResponse)
+@router.get("/{id}", response_model=api_schemas.PostResponse)
 def get_post(id: int, db: Session = Depends(get_db)):
     # cursor.execute("""SELECT * FROM posts WHERE id = %s""", (str(id),))
     # post = cursor.fetchone()
@@ -48,7 +51,7 @@ def get_post(id: int, db: Session = Depends(get_db)):
 
 
 # Delete post
-@router.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int, db: Session = Depends(get_db)):
     # deleting post
     # cursor.execute("""DELETE FROM posts WHERE id = %s RETURNING *""", (str(id),))
@@ -66,7 +69,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
 
 
 # Update post
-@router.put("/posts/{id}", response_model=api_schemas.PostResponse)
+@router.put("/{id}", response_model=api_schemas.PostResponse)
 def update(id: int, updated_post: api_schemas.PostCreate, db: Session = Depends(get_db)):
 
     # cursor.execute("""UPDATE posts SET title = %s, content = %s, published = %s WHERE id = %s RETURNING *""", (post.title, post.content, post.published, str(id),))
