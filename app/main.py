@@ -13,7 +13,7 @@ from . import models
 from .database import engine, get_db
 from sqlalchemy.orm import Session
 from . import utils
-from .routers import post, user
+from .routers import post, user, auth
 
 #Create database table
 models.Base.metadata.create_all(bind=engine)
@@ -36,10 +36,7 @@ while True:
 # Grabbing the router objects
 app.include_router(post.router)
 app.include_router(user.router)
-
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to my API!!!!!"}
+app.include_router(auth.router)
 
 
 
