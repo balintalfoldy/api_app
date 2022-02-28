@@ -22,7 +22,7 @@ def get_posts(db: Session = Depends(get_db)):
 
 # Create post
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=api_schemas.PostResponse)
-def create_posts(post: api_schemas.PostCreate, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)): #Verify if user is logged in
+def create_posts(post: api_schemas.PostCreate, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)): #Verify if user is logged in
     # cursor.execute("""INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) RETURNING *""",
     #                (post.title, post.content, post.published))  # protection against SQL injection
     # new_post = cursor.fetchone()
@@ -52,7 +52,7 @@ def get_post(id: int, db: Session = Depends(get_db)):
 
 # Delete post
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_post(id: int, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
+def delete_post(id: int, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
     # deleting post
     # cursor.execute("""DELETE FROM posts WHERE id = %s RETURNING *""", (str(id),))
     # deleted_post = cursor.fetchone()
@@ -70,7 +70,7 @@ def delete_post(id: int, db: Session = Depends(get_db), user_id: int = Depends(o
 
 # Update post
 @router.put("/{id}", response_model=api_schemas.PostResponse)
-def update(id: int, updated_post: api_schemas.PostCreate, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
+def update(id: int, updated_post: api_schemas.PostCreate, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
 
     # cursor.execute("""UPDATE posts SET title = %s, content = %s, published = %s WHERE id = %s RETURNING *""", (post.title, post.content, post.published, str(id),))
     # updated_post = cursor.fetchone()
