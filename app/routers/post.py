@@ -27,7 +27,7 @@ def create_posts(post: api_schemas.PostCreate, db: Session = Depends(get_db), cu
     #                (post.title, post.content, post.published))  # protection against SQL injection
     # new_post = cursor.fetchone()
     # conn.commit()   # Save changes to the database
-    new_post = models.Post(**post.dict())
+    new_post = models.Post(owner_id=current_user.id, **post.dict())
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
@@ -60,11 +60,18 @@ def delete_post(id: int, db: Session = Depends(get_db), current_user: int = Depe
 
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
+
     if post == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"post with id: {id} does not exist")
+
+    if post.owner_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"Not authorized to perform requested action")
+
     post_query.delete(synchronize_session=False)
     db.commit()
+
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
@@ -81,6 +88,11 @@ def update(id: int, updated_post: api_schemas.PostCreate, db: Session = Depends(
     if post == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"post with id: {id} does not exist")
+
+    if post.owner_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"Not authorized to perform requested action")
+
     post_query.update(updated_post.dict(), synchronize_session=False)
     db.commit()
     return post_query.first()
