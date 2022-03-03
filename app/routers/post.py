@@ -11,12 +11,12 @@ router = APIRouter(
 
 # Get all posts
 @router.get("/", response_model=List[api_schemas.PostResponse])
-def get_posts(db: Session = Depends(get_db)):
+def get_posts(db: Session = Depends(get_db), limit: int = 10, skip: int = 0):
     # Get all posts by SQL statement
     #cursor.execute("""SELECT * FROM posts""")
     # Retrive the data itself
     #posts = cursor.fetchall()
-    posts = db.query(models.Post).all()
+    posts = db.query(models.Post).limit(limit).offset(skip).all()
     return posts
 
 
