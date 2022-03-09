@@ -1,11 +1,11 @@
-alembic @ file:///home/conda/feedstock_root/build_artifacts/alembic_1643780403162/work
+alembic==1.7.6
 anyio==3.5.0
 argon2-cffi==19.1.0
 asgiref==3.5.0
-autopep8 @ file:///opt/conda/conda-bld/autopep8_1639166893812/work
-bcrypt @ file:///C:/ci/bcrypt_1597936263757/work
+autopep8==1.6.0
+bcrypt==3.2.0
 certifi==2021.10.8
-cffi @ file:///C:/ci/cffi_1600699246375/work
+cffi==1.14.3
 charset-normalizer==2.0.10
 click==8.0.3
 colorama==0.4.4
@@ -17,18 +17,19 @@ fastapi==0.73.0
 h11==0.13.0
 httptools==0.2.0
 idna==3.3
-importlib-metadata @ file:///D:/bld/importlib-metadata_1646003537621/work
-importlib-resources @ file:///home/conda/feedstock_root/build_artifacts/importlib_resources_1635615662634/work
+importlib-metadata==4.11.2
+importlib-resources==5.4.0
 itsdangerous==2.0.1
 Jinja2==3.0.3
-Mako @ file:///home/conda/feedstock_root/build_artifacts/mako_1637170539581/work
-MarkupSafe @ file:///D:/bld/markupsafe_1646594881377/work
+Mako==1.1.6
+MarkupSafe==2.1.0
 orjson==3.6.6
 passlib==1.7.4
-psycopg2 @ file:///C:/ci/psycopg2_1594305172475/work
+pip==21.2.2
+psycopg2==2.8.5
 pyasn1==0.4.8
-pycodestyle @ file:///tmp/build/80754af9/pycodestyle_1636635402688/work
-pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
+pycodestyle==2.8.0
+pycparser==2.20
 pydantic==1.9.0
 python-dotenv==0.19.2
 python-jose==3.3.0
@@ -36,16 +37,18 @@ python-multipart==0.0.5
 PyYAML==5.4.1
 requests==2.27.1
 rsa==4.8
+setuptools==58.0.4
 six==1.16.0
 sniffio==1.2.0
-SQLAlchemy @ file:///C:/ci/sqlalchemy_1598374833867/work
+SQLAlchemy==1.3.19
 starlette==0.17.1
-toml @ file:///tmp/build/80754af9/toml_1616166611790/work
+toml==0.10.2
 typing_extensions==4.0.1
 ujson==4.3.0
 urllib3==1.26.8
 uvicorn==0.15.0
 watchgod==0.7
 websockets==10.1
+wheel==0.37.1
 wincertstore==0.2
-zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1643828507773/work
+zipp==3.7.0
