@@ -16,6 +16,9 @@ SECRET_KEY = settings.secret_key
 ALGORITHM = settings.algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = int(settings.access_token_expire_minutes)  
 
+# SECRET_KEY = '6211438ee97580272a1a5eaaf8d7f620976fdfc2b9fedfb05a36196df917842d'
+# ALGORITHM = 'HS256'
+# ACCESS_TOKEN_EXPIRE_MINUTES = int('30')  
 
 def create_access_token(data: dict):
     to_encode = data.copy()
