@@ -5,7 +5,7 @@ from .routers import post, user, auth, vote
 from .config import settings
 from fastapi.middleware.cors import CORSMiddleware
 #Create database table
-models.Base.metadata.create_all(bind=engine)       #Alembic does the job
+#models.Base.metadata.create_all(bind=engine)       #Alembic does the job
 
 app = FastAPI()
 
@@ -28,6 +28,6 @@ app.include_router(vote.router)
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to the API service! We are sooo happy you are here, because this is a cool site!"}
+    return {"message": "Hello World!"}
 
  
