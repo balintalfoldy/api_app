@@ -1,43 +1,28 @@
-from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-from app.main import app
 from app import api_schemas
+import pytest
+from jose import jwt
 from app.config import settings
-from app.database import get_db
-from app.database import Base
-
-#SQLALCHEMY_DATABASE_URL = f'postgresql://postgres:2022301ab@postgres:5432/fastapi'
-SQLALCHEMY_DATABASE_URL = f'postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}_test'
-
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
-
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-Base.metadata.create_all(bind=engine) 
 
 
-# Dependency
-def override_get_db():
-    db = TestingSessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-app.dependency_overrides[get_db] = override_get_db
-
-client = TestClient(app)
-
-def test_root():
+def test_root(client):
     res = client.get("/")
     assert res.json().get('message') == "Hello World!"
     assert res.status_code == 200
 
-def test_create_user():
+def test_create_user(client):
     res = client.post(
-        "/users/", json={"email": "hello123@gmail.com", "password": "password123"})
+        "/users/", json={"email": "balint@gmail.com", "password": "password123"})
     new_user = api_schemas.UserOut(**res.json())
-    assert new_user.email == "hello123@gmail.com"
+    assert new_user.email == "balint@gmail.com"
     assert res.status_code == 201
+
+def test_login_user(client, test_user):
+    res = client.post(
+        "/login", data={"username": test_user['email'], "password": test_user['password']})
+    login_res = api_schemas.Token(**res.json())
+    payload = jwt.decode(login_res.access_token, settings.secret_key, algorithms=[settings.algorithm])
+    id = payload.get("user_id")
+
+    assert id == test_user['id']
+    assert login_res.token_type == "bearer"
+    assert res.status_code == 200
