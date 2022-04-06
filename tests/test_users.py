@@ -34,9 +34,9 @@ def test_login_user(client, test_user):
     (None, 'password123', 422),
     ('sanjeev@gmail.com', None, 422)
 ])
-def test_incorrect_login(client, test_user):
+def test_incorrect_login(client, test_user, email, password, status_code):
     res = client.post(
-        "/login", data={"username": test_user['email'], "password": "wrongPassword"})
+        "/login", data={"username": email, "password": password})
     
-    assert res.status_code == 403
-    assert res.json().get('detail') == 'Invalid credentials'
+    assert res.status_code == status_code
+    #assert res.json().get('detail') == 'Invalid credentials'
