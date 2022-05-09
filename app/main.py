@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 #Create database table
 #models.Base.metadata.create_all(bind=engine)       #Alembic does the job
 
+# Call FastAPI
 app = FastAPI()
 
 origins = ['https://www.google.com']
